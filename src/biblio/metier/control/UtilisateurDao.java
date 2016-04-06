@@ -9,15 +9,18 @@ public class UtilisateurDao
 {
 	private ArrayList <Utilisateur> utilisateurDB = new ArrayList<Utilisateur>();
 	
+	////////////
+	//Méthodes//
+	////////////
 	
-	//Méthodes
-
 	
+	// Ajouter un utilisateur à la liste
 	public void addUtilisateur(Utilisateur u)
 	{
 		utilisateurDB.add(u);
 	}
 	
+	//Trouver un utilisateur via son identifiant
 	public Utilisateur findByKey(int id)
 	{
 		Utilisateur u1 = null;
@@ -28,7 +31,6 @@ public class UtilisateurDao
 			return u;
 		}
 		return u1;
-		
 	}
 	
 }

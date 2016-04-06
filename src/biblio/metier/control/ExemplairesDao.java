@@ -7,14 +7,17 @@ public class ExemplairesDao
 {
 	private ArrayList <Exemplaire> exemplaireDB = new ArrayList<Exemplaire>();
 	
-	//Méthodes
-
-
+	///////////
+	//Méthodes//
+	///////////
+	
+	//Ajouter un exemplaire à la collection
 	public void addExemplaire(Exemplaire e)
 	{
 		exemplaireDB.add(e);
 	}
 	
+	// Trouver un exemplaire via son identifiant
 	public Exemplaire findByKey(int id)
 	{
 		Exemplaire e1 = null;
@@ -24,6 +27,5 @@ public class ExemplairesDao
 				e1 = e;
 		}
 		return e1;
-		
 	}
 }

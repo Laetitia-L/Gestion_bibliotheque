@@ -13,24 +13,27 @@ public class Adherent extends Utilisateur
 	private  static int nbMaxPrets = 3;
 	private static int dureeMaxPrets = 15;
 	
+	//////////////
+	// Methodes //
+	/////////////
 	
-	//Methodes
 	
-	
+	//Constructeur
 	public Adherent(String nom, String prenom, int idUtilisateur) 
 	{
 		super(nom, prenom, idUtilisateur);
 	}
-
+	
+	//Vérifie que l'utilisateur n'a aucun retour en retard et n'a pas atteint le nombre maximum d'emprunts
+	//Les conditions du prêt sont réunies
 	public Boolean isConditionsPretAcceptees()
 	{
 		if ( (getNbRetards() == 0) && (getEmpruntEnCours().size() < 3) )
 			return true;
 		return false;
-		
 	}
 	
-	
+	//Vérifie si un emprunt a dépassé sa date de rendu attendue
 	public Boolean isPretRetard(EmpruntEnCours eec)
 	{
 		if (eec != null)
@@ -42,10 +45,14 @@ public class Adherent extends Utilisateur
 			Date d1 = new Date();
 			Date d2 = calendrier.getTime();
 			return d1.after(d2);
-			
 		}
 		return false;
 	}
+	
+	
+	/////////////////////
+	//Getters & Setters //
+	/////////////////////
 	
 	public int getNbRetards()
 	{
@@ -58,6 +65,8 @@ public class Adherent extends Utilisateur
 		return i;
 	}
 	
+	
+	// Redéfinition des Méthodes toString() et addEmpruntEncours()
 	@Override 
 	public String toString()
 	{
