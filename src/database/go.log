@@ -1,0 +1,623 @@
+SQL> 
+SQL> -- Pas d'affichage des substitutions de variable
+SQL> SET VERIFY OFF
+SQL> 
+SQL> -- Sortir en cas d'erreur
+SQL> WHENEVER SQLERROR EXIT rollback
+SQL> 
+SQL> 
+SQL> @install_biblio
+SQL> --/*==============================================================*/
+SQL> --/* Nom de la base :  BIBLIO				       */
+SQL> --/* Nom du fichier : install_biblio.sql			       */
+SQL> --/* Nom de SGBD :  ORACLE Version 10g			       */
+SQL> --/* Date de création :  27/04/2016			       */
+SQL> --/* Auteurs : Laetitia Laleye & Jean-Jules Dormevil	       */						     */
+SQL> --/*==============================================================*/
+SQL> 
+SQL> 
+SQL> -- Création des tables
+SQL> 
+SQL> CREATE TABLE Utilisateur (
+  2  	     idUtilisateur NUMBER ( 5 ) NOT NULL,
+  3  	     nom VARCHAR2 ( 35 ) NOT NULL,
+  4  	     prenom VARCHAR2 ( 30 ) NOT NULL,
+  5  	     pwd VARCHAR2 ( 15 ) NOT NULL,
+  6  	     pseudonyme VARCHAR2 ( 20 ) NOT NULL,
+  7  	     dateNaissance DATE NOT NULL,
+  8  	     sexe CHAR ( 1 ) NOT NULL,
+  9  	     categorieUtilisateur VARCHAR2 ( 25 ) NOT NULL,
+ 10  	     CONSTRAINT PK_Utilisateur2 PRIMARY KEY (idUtilisateur),
+ 11  	     CONSTRAINT categorieUtilisateur CHECK (categorieUtilisateur IN ('ADHERENT', 'EMPLOYE'))
+ 12  	     );
+
+Table créée.
+
+SQL> 
+SQL> CREATE TABLE AdherentGeneral (
+  2  	     nbMaxPrets NUMBER ( 3 ) NOT NULL,
+  3  	     dureeMaxPret NUMBER ( 4 ) NOT NULL
+  4  	     );
+
+Table créée.
+
+SQL> 
+SQL> CREATE TABLE Employe (
+  2  	     idUtilisateur NUMBER ( 5 ) NOT NULL,
+  3  	     codeMatricule VARCHAR2 ( 15 ) NOT NULL,
+  4  	     categorieEmploye VARCHAR2 ( 25 ) NOT NULL,
+  5  	     CONSTRAINT PK_Employe18 PRIMARY KEY (idUtilisateur),
+  6  	     CONSTRAINT check_catego_employe CHECK (categorieEmploye IN( 'BIBLIOTHECAIRE', 'RESPONSABLE', 'GESTIONNAIRE_DE_FOND')),
+  7    CONSTRAINT FK_Employe14 FOREIGN KEY (idUtilisateur) REFERENCES Utilisateur (idUtilisateur)
+  8  	     );
+
+Table créée.
+
+SQL> 
+SQL> CREATE TABLE Theme (
+  2  	     codeTheme VARCHAR2 ( 2 ) NOT NULL,
+  3  	     libelle VARCHAR2 ( 50 ) NOT NULL,
+  4  	     parent VARCHAR2 ( 2 ),
+  5  	     CONSTRAINT PK_Theme1 PRIMARY KEY (codeTheme),
+  6    CONSTRAINT FK_Theme FOREIGN KEY (parent) REFERENCES Theme (codeTheme)
+  7  	     );
+
+Table créée.
+
+SQL> 
+SQL> CREATE TABLE Editeur (
+  2  	     idEditeur NUMBER ( 5 ) NOT NULL,
+  3  	     nomEditeur VARCHAR2 ( 40 ) NOT NULL,
+  4  	     ville VARCHAR2 ( 50 ) NOT NULL,
+  5  	     CONSTRAINT PK_Editeur5 PRIMARY KEY (idEditeur)
+  6  	     );
+
+Table créée.
+
+SQL> 
+SQL> CREATE TABLE Livre (
+  2  	     isbn VARCHAR2 ( 13 ) NOT NULL,
+  3  	     titre VARCHAR2 ( 50 ) NOT NULL,
+  4  	     anneeParution NUMBER ( 5 ) NOT NULL,
+  5  	     nbPages NUMBER ( 5 ) NOT NULL,
+  6  	     idEditeur NUMBER ( 5 ) NOT NULL,
+  7  	     codeTheme VARCHAR2 ( 2 ) NOT NULL,
+  8  	     CONSTRAINT PK_Livre12 PRIMARY KEY (isbn),
+  9  	     CONSTRAINT check_dataType CHECK (anneeParution >0),
+ 10  	     CONSTRAINT check_codeTheme CHECK (codeTheme>0),
+ 11    CONSTRAINT FK_Livre0 FOREIGN KEY (idEditeur) REFERENCES Editeur (idEditeur)
+ 12  	     );
+
+Table créée.
+
+SQL> 
+SQL> CREATE TABLE Adherent (
+  2  	     idUtilisateur NUMBER ( 5 ) NOT NULL,
+  3  	     telephone NUMBER ( 10 ) NOT NULL,
+  4  	     CONSTRAINT PK_Adherent16 PRIMARY KEY (idUtilisateur),
+  5    CONSTRAINT FK_Adherent11 FOREIGN KEY (idUtilisateur) REFERENCES Utilisateur (idUtilisateur)
+  6  	     );
+
+Table créée.
+
+SQL> 
+SQL> CREATE TABLE Exemplaire (
+  2  	     idExemplaire NUMBER ( 5 ) NOT NULL,
+  3  	     dateAchat DATE NOT NULL,
+  4  	     status VARCHAR2 ( 10 ) NOT NULL,
+  5    isbn VARCHAR2 ( 13 ) NOT NULL,
+  6  	     CONSTRAINT PK_Exemplaire0 PRIMARY KEY (idExemplaire),
+  7  	     CONSTRAINT check_status_exemplaire CHECK (status IN('PRETE','DISPONIBLE','SUPPRIME')),
+  8    CONSTRAINT FK_Exemplaire5 FOREIGN KEY (isbn) REFERENCES Livre (isbn)
+  9  	     );
+
+Table créée.
+
+SQL> 
+SQL> CREATE TABLE EmpruntEnCours (
+  2  	     idExemplaire NUMBER ( 5 ) NOT NULL,
+  3  	     idUtilisateur NUMBER ( 5 ) NOT NULL,
+  4  	     dateEmprunt DATE NOT NULL,
+  5  	     CONSTRAINT PK_EmpruntEnCours9 PRIMARY KEY (idExemplaire),
+  6    CONSTRAINT FK_EmpruntEnCours4 FOREIGN KEY (idExemplaire) REFERENCES Exemplaire (idExemplaire),
+  7    CONSTRAINT FK_EmpruntEnCours10 FOREIGN KEY (idUtilisateur) REFERENCES Utilisateur (idUtilisateur)
+  8  	     );
+
+Table créée.
+
+SQL> 
+SQL> CREATE TABLE Auteur (
+  2  	     idAuteur NUMBER ( 5 ) NOT NULL,
+  3  	     nom VARCHAR2 ( 35 ) NOT NULL,
+  4  	     prenom VARCHAR2 ( 30 ) NOT NULL,
+  5  	     CONSTRAINT PK_Auteur17 PRIMARY KEY (idAuteur)
+  6  	     );
+
+Table créée.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> CREATE TABLE Auteur_Livre (
+  2    isbn VARCHAR2 ( 13 ) NOT NULL,
+  3  	     idAuteur NUMBER ( 5 ) NOT NULL,
+  4  	     ordreAuteur NUMBER ( 2 ) NOT NULL,
+  5  	     CONSTRAINT PK_015 PRIMARY KEY (idAuteur, isbn),
+  6  	     CONSTRAINT ordreAuteur CHECK (ordreAuteur >0),
+  7    CONSTRAINT FK_02 FOREIGN KEY (isbn) REFERENCES Livre (isbn)
+  8  	     );
+
+Table créée.
+
+SQL> 
+SQL> CREATE TABLE EmpruntArchive (
+  2    idEmpruntArchive NUMBER (5) NOT NULL,
+  3  	     idExemplaire NUMBER ( 5 ) NOT NULL,
+  4  	     idUtilisateur NUMBER ( 5 ) NOT NULL,
+  5  	     dateRestitutionEff DATE NOT NULL,
+  6  	     dateEmprunt DATE NOT NULL,
+  7    CONSTRAINT PK_EmpruntArchive PRIMARY KEY (idEmpruntArchive),
+  8    CONSTRAINT FK_EmpruntArchive3 FOREIGN KEY (idExemplaire) REFERENCES Exemplaire (idExemplaire),
+  9    CONSTRAINT FK_EmpruntArchive9 FOREIGN KEY (idUtilisateur) REFERENCES Utilisateur (idUtilisateur)
+ 10  	     );
+
+Table créée.
+
+SQL> 
+SQL> 
+SQL> COMMENT ON TABLE Livre IS 'Catalogue de livres';
+
+Commentaire créé.
+
+SQL> 
+SQL> prompt
+
+SQL> prompt
+
+SQL> prompt
+
+SQL> Prompt ******************************
+******************************
+SQL> prompt Recapitulatif des Objets créés
+Recapitulatif des Objets créés
+SQL> Prompt ******************************
+******************************
+SQL> select * from user_catalog;
+
+TABLE_NAME                     TABLE_TYPE                                       
+------------------------------ -----------                                      
+UTILISATEUR                    TABLE                                            
+ADHERENTGENERAL                TABLE                                            
+EMPLOYE                        TABLE                                            
+THEME                          TABLE                                            
+EDITEUR                        TABLE                                            
+LIVRE                          TABLE                                            
+ADHERENT                       TABLE                                            
+EXEMPLAIRE                     TABLE                                            
+EMPRUNTENCOURS                 TABLE                                            
+AUTEUR                         TABLE                                            
+AUTEUR_LIVRE                   TABLE                                            
+
+TABLE_NAME                     TABLE_TYPE                                       
+------------------------------ -----------                                      
+EMPRUNTARCHIVE                 TABLE                                            
+
+12 ligne(s) sélectionnée(s).
+
+SQL> prompt
+
+SQL> prompt
+
+SQL> prompt
+
+SQL> prompt ************************************
+************************************
+SQL> prompt Recapitulatif des contraintes posées
+Recapitulatif des contraintes posées
+SQL> prompt ************************************
+************************************
+SQL> 
+SQL> column constraint_name format A20
+SQL> column type format A3
+SQL> column table_name format A15
+SQL> column SEARCH_CONDITION format A30
+SQL> 
+SQL> break on type skip
+SQL> compute count of constraint_name on type report
+SQL> select  constraint_name, Constraint_type as type,
+  2  	     table_name , SEARCH_CONDITION, DELETE_RULE, STATUS
+  3  from user_constraints
+  4  order by type, table_name;
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+SYS_C006220          C   ADHERENT        "IDUTILISATEUR" IS NOT NULL            
+          ENABLED                                                               
+                                                                                
+SYS_C006221              ADHERENT        "TELEPHONE" IS NOT NULL                
+          ENABLED                                                               
+                                                                                
+SYS_C006195              ADHERENTGENERAL "DUREEMAXPRET" IS NOT NULL             
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+SYS_C006194          C   ADHERENTGENERAL "NBMAXPRETS" IS NOT NULL               
+          ENABLED                                                               
+                                                                                
+SYS_C006237              AUTEUR          "IDAUTEUR" IS NOT NULL                 
+          ENABLED                                                               
+                                                                                
+SYS_C006239              AUTEUR          "PRENOM" IS NOT NULL                   
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+SYS_C006238          C   AUTEUR          "NOM" IS NOT NULL                      
+          ENABLED                                                               
+                                                                                
+SYS_C006241              AUTEUR_LIVRE    "ISBN" IS NOT NULL                     
+          ENABLED                                                               
+                                                                                
+SYS_C006242              AUTEUR_LIVRE    "IDAUTEUR" IS NOT NULL                 
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+SYS_C006243          C   AUTEUR_LIVRE    "ORDREAUTEUR" IS NOT NULL              
+          ENABLED                                                               
+                                                                                
+ORDREAUTEUR              AUTEUR_LIVRE    ordreAuteur >0                         
+          ENABLED                                                               
+                                                                                
+SYS_C006206              EDITEUR         "IDEDITEUR" IS NOT NULL                
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+SYS_C006208          C   EDITEUR         "VILLE" IS NOT NULL                    
+          ENABLED                                                               
+                                                                                
+SYS_C006207              EDITEUR         "NOMEDITEUR" IS NOT NULL               
+          ENABLED                                                               
+                                                                                
+SYS_C006196              EMPLOYE         "IDUTILISATEUR" IS NOT NULL            
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+CHECK_CATEGO_EMPLOYE C   EMPLOYE         categorieEmploye IN( 'BIBLIOTH         
+                                         ECAIRE', 'RESPONSABLE', 'GESTI         
+                                         ONNAIRE_DE_FOND')                      
+          ENABLED                                                               
+                                                                                
+SYS_C006197              EMPLOYE         "CODEMATRICULE" IS NOT NULL            
+          ENABLED                                                               
+                                                                                
+SYS_C006198              EMPLOYE         "CATEGORIEEMPLOYE" IS NOT NULL         
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+          ENABLED                                                               
+                                                                                
+SYS_C006249          C   EMPRUNTARCHIVE  "IDUTILISATEUR" IS NOT NULL            
+          ENABLED                                                               
+                                                                                
+SYS_C006247              EMPRUNTARCHIVE  "IDEMPRUNTARCHIVE" IS NOT NULL         
+          ENABLED                                                               
+                                                                                
+SYS_C006248              EMPRUNTARCHIVE  "IDEXEMPLAIRE" IS NOT NULL             
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+          ENABLED                                                               
+                                                                                
+SYS_C006250          C   EMPRUNTARCHIVE  "DATERESTITUTIONEFF" IS NOT NU         
+                                         LL                                     
+          ENABLED                                                               
+                                                                                
+SYS_C006251              EMPRUNTARCHIVE  "DATEEMPRUNT" IS NOT NULL              
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+SYS_C006231          C   EMPRUNTENCOURS  "IDEXEMPLAIRE" IS NOT NULL             
+          ENABLED                                                               
+                                                                                
+SYS_C006232              EMPRUNTENCOURS  "IDUTILISATEUR" IS NOT NULL            
+          ENABLED                                                               
+                                                                                
+SYS_C006233              EMPRUNTENCOURS  "DATEEMPRUNT" IS NOT NULL              
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+SYS_C006226          C   EXEMPLAIRE      "STATUS" IS NOT NULL                   
+          ENABLED                                                               
+                                                                                
+CHECK_STATUS_EXEMPLA     EXEMPLAIRE      status IN('PRETE','DISPONIBLE'         
+IRE                                      ,'SUPPRIME')                           
+          ENABLED                                                               
+                                                                                
+SYS_C006227              EXEMPLAIRE      "ISBN" IS NOT NULL                     
+          ENABLED                                                               
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+SYS_C006224          C   EXEMPLAIRE      "IDEXEMPLAIRE" IS NOT NULL             
+          ENABLED                                                               
+                                                                                
+SYS_C006225              EXEMPLAIRE      "DATEACHAT" IS NOT NULL                
+          ENABLED                                                               
+                                                                                
+SYS_C006210              LIVRE           "ISBN" IS NOT NULL                     
+          ENABLED                                                               
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+SYS_C006211          C   LIVRE           "TITRE" IS NOT NULL                    
+          ENABLED                                                               
+                                                                                
+SYS_C006213              LIVRE           "NBPAGES" IS NOT NULL                  
+          ENABLED                                                               
+                                                                                
+SYS_C006214              LIVRE           "IDEDITEUR" IS NOT NULL                
+          ENABLED                                                               
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+SYS_C006215          C   LIVRE           "CODETHEME" IS NOT NULL                
+          ENABLED                                                               
+                                                                                
+CHECK_DATATYPE           LIVRE           anneeParution >0                       
+          ENABLED                                                               
+                                                                                
+CHECK_CODETHEME          LIVRE           codeTheme>0                            
+          ENABLED                                                               
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+SYS_C006212          C   LIVRE           "ANNEEPARUTION" IS NOT NULL            
+          ENABLED                                                               
+                                                                                
+SYS_C006203              THEME           "LIBELLE" IS NOT NULL                  
+          ENABLED                                                               
+                                                                                
+SYS_C006202              THEME           "CODETHEME" IS NOT NULL                
+          ENABLED                                                               
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                                                                
+SYS_C006190          C   UTILISATEUR     "SEXE" IS NOT NULL                     
+          ENABLED                                                               
+                                                                                
+SYS_C006191              UTILISATEUR     "CATEGORIEUTILISATEUR" IS NOT          
+                                         NULL                                   
+          ENABLED                                                               
+                                                                                
+CATEGORIEUTILISATEUR     UTILISATEUR     categorieUtilisateur IN ('ADHE         
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                                         RENT', 'EMPLOYE')                      
+          ENABLED                                                               
+                                                                                
+SYS_C006189          C   UTILISATEUR     "DATENAISSANCE" IS NOT NULL            
+          ENABLED                                                               
+                                                                                
+SYS_C006188              UTILISATEUR     "PSEUDONYME" IS NOT NULL               
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+SYS_C006187          C   UTILISATEUR     "PWD" IS NOT NULL                      
+          ENABLED                                                               
+                                                                                
+SYS_C006186              UTILISATEUR     "PRENOM" IS NOT NULL                   
+          ENABLED                                                               
+                                                                                
+SYS_C006185              UTILISATEUR     "NOM" IS NOT NULL                      
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+SYS_C006184          C   UTILISATEUR     "IDUTILISATEUR" IS NOT NULL            
+          ENABLED                                                               
+                                                                                
+-------------------- ***                                                        
+                                                                                
+                                                                                
+                  50 cou                                                        
+                                                                                
+                                                                                
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+PK_ADHERENT16        P   ADHERENT                                               
+          ENABLED                                                               
+                                                                                
+PK_AUTEUR17              AUTEUR                                                 
+          ENABLED                                                               
+                                                                                
+PK_015                   AUTEUR_LIVRE                                           
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+PK_EDITEUR5          P   EDITEUR                                                
+          ENABLED                                                               
+                                                                                
+PK_EMPLOYE18             EMPLOYE                                                
+          ENABLED                                                               
+                                                                                
+PK_EMPRUNTARCHIVE        EMPRUNTARCHIVE                                         
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+PK_EMPRUNTENCOURS9   P   EMPRUNTENCOURS                                         
+          ENABLED                                                               
+                                                                                
+PK_EXEMPLAIRE0           EXEMPLAIRE                                             
+          ENABLED                                                               
+                                                                                
+PK_LIVRE12               LIVRE                                                  
+          ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+PK_THEME1            P   THEME                                                  
+          ENABLED                                                               
+                                                                                
+PK_UTILISATEUR2          UTILISATEUR                                            
+          ENABLED                                                               
+                                                                                
+-------------------- ***                                                        
+                                                                                
+                                                                                
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                  11 cou                                                        
+                                                                                
+                                                                                
+FK_ADHERENT11        R   ADHERENT                                               
+NO ACTION ENABLED                                                               
+                                                                                
+FK_02                    AUTEUR_LIVRE                                           
+NO ACTION ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+FK_EMPLOYE14         R   EMPLOYE                                                
+NO ACTION ENABLED                                                               
+                                                                                
+FK_EMPRUNTARCHIVE9       EMPRUNTARCHIVE                                         
+NO ACTION ENABLED                                                               
+                                                                                
+FK_EMPRUNTARCHIVE3       EMPRUNTARCHIVE                                         
+NO ACTION ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+FK_EMPRUNTENCOURS4   R   EMPRUNTENCOURS                                         
+NO ACTION ENABLED                                                               
+                                                                                
+FK_EMPRUNTENCOURS10      EMPRUNTENCOURS                                         
+NO ACTION ENABLED                                                               
+                                                                                
+FK_EXEMPLAIRE5           EXEMPLAIRE                                             
+NO ACTION ENABLED                                                               
+                                                                                
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+FK_LIVRE0            R   LIVRE                                                  
+NO ACTION ENABLED                                                               
+                                                                                
+FK_THEME                 THEME                                                  
+NO ACTION ENABLED                                                               
+                                                                                
+-------------------- ***                                                        
+                                                                                
+                                                                                
+
+CONSTRAINT_NAME      TYP TABLE_NAME      SEARCH_CONDITION                       
+-------------------- --- --------------- ------------------------------         
+DELETE_RU STATUS                                                                
+--------- --------                                                              
+                  10 cou                                                        
+                                                                                
+                                                                                
+
+71 ligne(s) sélectionnée(s).
+
+SQL> 
+SQL> 
+SQL> clear columns
+SQL> clear breaks
+SQL> clear computes
+SQL> 
+SQL> 
+SQL> @install_data_biblio
+SP2-0310: impossible d'ouvrir le fichier "install_data_biblio.sql"
+SQL> @req_biblio
+SP2-0310: impossible d'ouvrir le fichier "req_biblio.sql"
+SQL> 
+SQL> 
+SQL> PROMPT	FIN NORMALE DU SCRIPT
+FIN NORMALE DU SCRIPT
+SQL> 
+SQL> -- Comportement par défaut
+SQL> spool off
