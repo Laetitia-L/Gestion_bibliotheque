@@ -1,6 +1,6 @@
 package biblio.metier;
 
-public enum EnumStatusExemplaire 
+public enum EnumstatusExemplaire 
 {
 	PRETE ("prêté"),
 	DISPONIBLE("disponible"),
@@ -8,7 +8,7 @@ public enum EnumStatusExemplaire
 	
 	private String status;
 	
-	EnumStatusExemplaire(String status)
+	EnumstatusExemplaire(String status)
 	{
 		this.status = status;
 	}

@@ -10,12 +10,13 @@ public class EmpruntEnCours
 	private Exemplaire exemplaire;
 	
 	
-	//Constructeur
-
+	//Methodes
+	
 	public EmpruntEnCours( Exemplaire e)
 	{
 		this.exemplaire = e;
 		this.dateEmprunt = new Date();
+		
 	}
 	
 
@@ -23,11 +24,11 @@ public class EmpruntEnCours
 	{
 		this.dateEmprunt = d;
 	}
-	
 	public Date getDateEmprunt ( )
 	{
 		return dateEmprunt;
 	}
+	
 	
 	public Utilisateur getEmprunteur() {
 		return emprunteur;

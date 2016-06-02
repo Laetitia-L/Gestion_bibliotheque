@@ -3,10 +3,9 @@ package biblio.test;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import biblio.dao.BiblioException;
 import biblio.dao.ExemplairesDao;
-import biblio.dao.UtilisateursDao;
 import biblio.metier.Adherent;
-import biblio.metier.BiblioException;
 import biblio.metier.EmpruntEnCours;
 import biblio.metier.Exemplaire;
 
@@ -14,25 +13,43 @@ public class TestAdherentTroisEmprunts {
 
 	public static void main(String[] args) throws BiblioException, ParseException 
 	{
-				UtilisateursDao usersDao = new UtilisateursDao();
+
+				// Création de 4 exemplaires
+		
+				System.out.println("//////////////Création de 2 exemplaires/////////////\n");
+				Exemplaire e1 = new Exemplaire(01, "L'oeil le plus bleu");
+				Exemplaire e2 = new Exemplaire(02, "Moi, Tituba");
+				Exemplaire e3 = new Exemplaire (03, "Gone Girl");
+				Exemplaire e4 = new Exemplaire (04, "The Grownup");
+				
+				// Ajout des exemplaires dans la DB
+				
+				System.out.println("//////////////Ajout des exemplaires dans la DB/////////////\n");
+				ExemplairesDao exemplaireData  = new ExemplairesDao();
+				exemplaireData.addExemplaire(e1);
+
+				// Création de 2 Adhérents
+						
+				System.out.println("//////////////Création de 2 adhérents/////////////\n");
+				Adherent a1 = new Adherent("Jean-Jules", "Dormevil", 111);
+				Adherent a2 = new Adherent("Juno", "Dormevil", 112);
 				
 				//Création d'un emprunt en cours pour un adhérent
-				ExemplairesDao ExemplairesData = new ExemplairesDao();	
+					
 				System.out.println("\n///////////Création de 3 emprunts en cours pour un adhérent ////////\n");
-				EmpruntEnCours eec = new EmpruntEnCours(ExemplairesData.findByKey(01));
-				usersDao.findByKey(111).addEmpruntEnCours(eec);
-				EmpruntEnCours eec2 = new EmpruntEnCours(ExemplairesData.findByKey(02));
-				usersDao.findByKey(111).addEmpruntEnCours(eec2);
-				EmpruntEnCours eec3 = new EmpruntEnCours(ExemplairesData.findByKey(03));
-				usersDao.findByKey(111).addEmpruntEnCours(eec3);
+				EmpruntEnCours eec = new EmpruntEnCours(e1);
+				a1.addEmpruntEnCours(eec);
+				EmpruntEnCours eec2 = new EmpruntEnCours(e2);
+				a1.addEmpruntEnCours(eec2);
+				EmpruntEnCours eec3 = new EmpruntEnCours(e3);
+				a1.addEmpruntEnCours(eec3);
 				
-				System.out.println(usersDao.findByKey(111));
+				System.out.println(a1);
 
-				// Essai d'emprunt pour l'adhérent qui a  3 emprunts
-				
-				System.out.println("///////Essai d'emprunt pour l'adhérent qui a 3 emprunts///////");
-				EmpruntEnCours eec4 = new EmpruntEnCours(ExemplairesData.findByKey(04));
-				usersDao.findByKey(111).addEmpruntEnCours(eec4);
+				// Essai d'emprunt pour l'adhéret qui a  3 emprunts
+				System.out.println("///////Essai d'emprunt pour l'adhéret qui a 3 emprunts///////");
+				EmpruntEnCours eec4 = new EmpruntEnCours(e4);
+				a1.addEmpruntEnCours(eec4);
 		
 	}
 

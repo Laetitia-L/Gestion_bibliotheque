@@ -2,6 +2,8 @@ package biblio.metier;
 
 import java.util.ArrayList;
 
+import biblio.dao.BiblioException;
+
 public class Utilisateur extends Personne
 {
 	private int idUtilisateur;
@@ -22,14 +24,13 @@ public class Utilisateur extends Personne
 	// Les Méthodes
 	public void addEmpruntEnCours( EmpruntEnCours ep) throws BiblioException
 	{
-		ep.getExemplaire().setStatus(EnumStatusExemplaire.PRETE);
+		ep.getExemplaire().setStatus(EnumstatusExemplaire.PRETE);
 		empruntsEnCours.add(ep);
 	}
-	
 	//Méthode pour rendre un exemplaire
 	public void retour(EmpruntEnCours ep)
 	{
-		ep.getExemplaire().setStatus(EnumStatusExemplaire.DISPONIBLE);
+		ep.getExemplaire().setStatus(EnumstatusExemplaire.DISPONIBLE);
 		
 		empruntsEnCours.remove(ep);
 		empruntsArchives.add(new EmpruntArchive(ep));
@@ -37,6 +38,12 @@ public class Utilisateur extends Personne
 	}
 	
 
+	public ArrayList <EmpruntEnCours> getEmpruntEnCours()
+	{
+		
+		return empruntsEnCours;
+	}
+	
 	public void setEmpruntEncours(EmpruntEnCours eec)
 	{
 		empruntsEnCours.add(eec);

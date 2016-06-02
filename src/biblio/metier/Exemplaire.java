@@ -2,45 +2,37 @@ package biblio.metier;
 
 import java.util.Date;
 
-import biblio.dao.ExemplairesDao;
-
 public class Exemplaire 
 {
 	 private int idExemplaire;
 	 private Date dateAchat;
-	 private EnumStatusExemplaire status = EnumStatusExemplaire.DISPONIBLE;
+	 private EnumstatusExemplaire status = EnumstatusExemplaire.DISPONIBLE;
 	 private String isbn;
 	 private EmpruntEnCours empruntEnCours;
-	// private Utilisateur utilisateur;
 	 
-	 
-	 //Constructeurs
 	 public Exemplaire(int idExemplaire)
 	 {
 		 this.idExemplaire = idExemplaire;
 	 }
 	 
-	 public Exemplaire(int idExemplaire, String isbn)
+	 
+	 
+	 public Exemplaire(Date dateAchat, EnumstatusExemplaire status, String isbn) 
+	 {
+		this.dateAchat = dateAchat;
+		this.status = status;
+		this.isbn = isbn;
+	}
+
+
+
+	public Exemplaire(int idExemplaire, String isbn)
 	 {
 		 this.idExemplaire = idExemplaire;
 		 this.isbn = isbn;
 	 }
 	 
-	
-	 
-	 // Méthodes
-	 public void retour(int idExemplaire)
-		{
-		
-		ExemplairesDao exemplairesData	=  new ExemplairesDao();
-		empruntEnCours.getEmprunteur().getEmpruntsEnCours().remove(exemplairesData.findByKey(idExemplaire));
-		this.setStatus(EnumStatusExemplaire.DISPONIBLE);
-		empruntEnCours.getEmprunteur().getEmpruntsArchives().add(new EmpruntArchive(this.empruntEnCours)); 
-			
-		}
-	 
-	 // Getters & Setters
-	 public int getIdExemplaire()
+	public int getIdExemplaire()
 	{
 		return idExemplaire;
 		
@@ -51,16 +43,23 @@ public class Exemplaire
 		return this.isbn;
 	}
 	
-	public void setStatus(EnumStatusExemplaire status)
+	public void setStatus(EnumstatusExemplaire status)
 	{
 		this.status = status;
 	}
 	
-	public EnumStatusExemplaire getStatus()
+	public EnumstatusExemplaire getStatus()
 	{
 		return status;
 	}
 	
+	public Date getDateAchat() {
+		return dateAchat;
+	}
+
+	public void setDateAchat(Date dateAchat) {
+		this.dateAchat = dateAchat;
+	}
 	
 	
 	@ Override

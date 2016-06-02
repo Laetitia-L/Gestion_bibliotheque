@@ -9,7 +9,7 @@ private Date dateEmprunt;
 private Utilisateur emprunteur;
 private Exemplaire exemplaire;
 
-	//Constructeur
+
 	public EmpruntArchive(EmpruntEnCours eec)
 	{
 		this.dateRestitutionEff = new Date();
@@ -18,7 +18,7 @@ private Exemplaire exemplaire;
 		this.exemplaire = eec.getExemplaire();
 	}
 	
-	//Redifition de la methode toString()
+	
 	@Override
 	public String toString()
 	{
@@ -28,8 +28,6 @@ private Exemplaire exemplaire;
 		return infosArchive;
 	}
 	
-	
-	//Getter
 	public Date getDateRestitutionEff()
 	{
 		return dateRestitutionEff;
