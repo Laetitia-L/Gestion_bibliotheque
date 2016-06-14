@@ -23,7 +23,7 @@ public class Trigger
 	{
 		Trigger gachette = new Trigger();
 		gachette.initConnexion();
-		gachette.Gachette(22);
+		gachette.Gachette(7);
 	}
 	
 	public Trigger()
@@ -53,16 +53,16 @@ public class Trigger
 	public void Gachette(int idExemplaire) throws SQLException
 	{
 		int requete = stmt.executeUpdate("DELETE FROM empruntencours where idexemplaire =" + idExemplaire +"");
-		
-		/*while (rs.next())
-			{
-			JOptionPane.showMessageDialog(null, " Exemplaire supprimé\nN°Exemplaire : " + rs.getInt(idExemplaire));
-			}*/
+		cnx.commit();
+	
 		if (requete == 1)
 		{
 		JOptionPane.showMessageDialog(null, "Suppression effectuée.");
 		}
+		else if(requete == 0) 
+		{
 		JOptionPane.showMessageDialog(null, "ATTENTION\nSuppression non effectuée.");
+		}
 		
 	}
 }

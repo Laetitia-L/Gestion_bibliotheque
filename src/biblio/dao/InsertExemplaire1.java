@@ -8,10 +8,8 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
-
 import javax.swing.JOptionPane;
-
-import biblio.metier.EnumstatusExemplaire;
+import biblio.metier.EnumStatusExemplaire;
 import biblio.metier.Exemplaire;
 
 public class InsertExemplaire1 
@@ -32,7 +30,7 @@ public class InsertExemplaire1
 	{
 		InsertExemplaire1 blob = new InsertExemplaire1();
 		blob.initConnexion();
-		Exemplaire test_exemp = new Exemplaire(new Date(), EnumstatusExemplaire.DISPONIBLE , "1520068789");
+		Exemplaire test_exemp = new Exemplaire(new Date(), EnumStatusExemplaire.DISPONIBLE , "1520068789");
 		blob.insertExemplaire(test_exemp);
 	}
 	

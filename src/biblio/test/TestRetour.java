@@ -1,6 +1,14 @@
 package biblio.test;
 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Date;
+
+import biblio.control.RetourCtl;
 import biblio.dao.BiblioException;
+import biblio.dao.ConnectionFactory;
+import biblio.dao.EmpruntEnCoursDB;
+import biblio.dao.EmpruntEnCoursDao;
 import biblio.dao.ExemplairesDao;
 import biblio.metier.Adherent;
 import biblio.metier.EmpruntEnCours;
@@ -8,10 +16,10 @@ import biblio.metier.Exemplaire;
 
 public class TestRetour {
 
-	public static void main(String[] args) throws BiblioException 
+	public static void main(String[] args) throws BiblioException, ClassNotFoundException, IOException, SQLException 
 	
 	{
-		// Création de 4 exemplaires
+		/*// Création de 4 exemplaires
 		
 		System.out.println("//////////////Création de 4 exemplaires/////////////\n");
 		Exemplaire e1 = new Exemplaire(01, "L'oeil le plus bleu");
@@ -65,10 +73,19 @@ public class TestRetour {
 		
 		//Vérification de la DateRestitutionEff()
 		System.out.println("ok");
-		System.out.println(a1.getEmpruntsArchives().get(0));
+		System.out.println(a1.getEmpruntsArchives().get(0));*/
 		
+		EmpruntEnCoursDao eecDao = new EmpruntEnCoursDao(ConnectionFactory.getConnection());
+		RetourCtl retourCtl = new RetourCtl();
 		
-	
+		EmpruntEnCoursDB emprunt_adh_late = new EmpruntEnCoursDB(7, 1, new Date());
+		System.out.println(emprunt_adh_late);
+		emprunt_adh_late.setDateEmprunt("31/01/16");
+		
+		eecDao.insertEmpruntEnCours(emprunt_adh_late);
+		System.out.println(emprunt_adh_late);
+		
+		retourCtl.RetourExemplaire(emprunt_adh_late);
 		
 
 	}

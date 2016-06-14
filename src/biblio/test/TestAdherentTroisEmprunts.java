@@ -1,8 +1,12 @@
 package biblio.test;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import biblio.control.EmprunterCtl_old;
+import biblio.control.IExemplairesDao;
 import biblio.dao.BiblioException;
 import biblio.dao.ExemplairesDao;
 import biblio.metier.Adherent;
@@ -11,7 +15,7 @@ import biblio.metier.Exemplaire;
 
 public class TestAdherentTroisEmprunts {
 
-	public static void main(String[] args) throws BiblioException, ParseException 
+	public static void main(String[] args) throws BiblioException, ParseException, ClassNotFoundException, SQLException, IOException 
 	{
 
 				// Création de 4 exemplaires
@@ -25,7 +29,7 @@ public class TestAdherentTroisEmprunts {
 				// Ajout des exemplaires dans la DB
 				
 				System.out.println("//////////////Ajout des exemplaires dans la DB/////////////\n");
-				ExemplairesDao exemplaireData  = new ExemplairesDao();
+				IExemplairesDao exemplaireData  = new ExemplairesDao();
 				exemplaireData.addExemplaire(e1);
 
 				// Création de 2 Adhérents
@@ -46,10 +50,14 @@ public class TestAdherentTroisEmprunts {
 				
 				System.out.println(a1);
 
-				// Essai d'emprunt pour l'adhéret qui a  3 emprunts
-				System.out.println("///////Essai d'emprunt pour l'adhéret qui a 3 emprunts///////");
+				// Essai d'emprunt pour l'adhérent qui a  3 emprunts
+				System.out.println("///////Essai d'emprunt pour l'adhérent qui a 3 emprunts///////");
 				EmpruntEnCours eec4 = new EmpruntEnCours(e4);
-				a1.addEmpruntEnCours(eec4);
+				//a1.addEmpruntEnCours(eec4);
+				
+				//Test Classe Control Emprunter
+				EmprunterCtl_old emprunt_control = new EmprunterCtl_old();
+				System.out.println(emprunt_control.isNbEmpruntsMaxAtteint(a1));
 		
 	}
 

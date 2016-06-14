@@ -5,13 +5,22 @@ import java.util.Date;
 
 public class EmpruntEnCours 
 {
-	private Date dateEmprunt;
-	private Utilisateur emprunteur;
-	private Exemplaire exemplaire;
+	protected Date dateEmprunt;
+	protected Utilisateur emprunteur;
+	protected Exemplaire exemplaire;
 	
 	
 	//Methodes
 	
+	public EmpruntEnCours() {
+	}
+	
+	public EmpruntEnCours(Date dateEmprunt, Utilisateur emprunteur, Exemplaire exemplaire) {
+		this.dateEmprunt = dateEmprunt;
+		this.emprunteur = emprunteur;
+		this.exemplaire = exemplaire;
+	}
+
 	public EmpruntEnCours( Exemplaire e)
 	{
 		this.exemplaire = e;

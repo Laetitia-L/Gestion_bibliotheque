@@ -8,6 +8,8 @@ private Date dateRestitutionEff;
 private Date dateEmprunt;
 private Utilisateur emprunteur;
 private Exemplaire exemplaire;
+private int idUtilisateur;
+private int idExemplaire;
 
 
 	public EmpruntArchive(EmpruntEnCours eec)
@@ -19,6 +21,14 @@ private Exemplaire exemplaire;
 	}
 	
 	
+	public EmpruntArchive(Date dateRestitutionEff2, Date dateEmprunt2, int idUtilisateur, int idExemplaire) {
+		this.dateRestitutionEff = dateRestitutionEff2;
+		this.dateEmprunt = dateEmprunt2;
+		this.idUtilisateur = idUtilisateur;
+		this.idExemplaire = idExemplaire;
+	}
+
+
 	@Override
 	public String toString()
 	{

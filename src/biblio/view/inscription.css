@@ -1,0 +1,13 @@
+/* INSCRIPTION */
+
+#image_fd{
+    -fx-background-image: url("fd_paris.jpeg");
+    -fx-background-size: cover;
+    -fx-background-repeat : no-repeat  ;
+    -fx-background-position: bottom;
+    -fx-opacity: .5;
+    
+}
+
+/* EMPRUNTER */
+

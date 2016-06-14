@@ -3,6 +3,7 @@ package biblio.test;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import biblio.control.IExemplairesDao;
 import biblio.dao.BiblioException;
 import biblio.dao.ExemplairesDao;
 import biblio.metier.Employe;
@@ -24,7 +25,7 @@ public class TestEmployeTroisEmprunts {
 				// Ajout des exemplaires dans la DB
 				
 				System.out.println("\n//////////////Ajout des exemplaires dans la DB/////////////\n");
-				ExemplairesDao exemplaireData  = new ExemplairesDao();
+				IExemplairesDao exemplaireData  = new ExemplairesDao();
 				exemplaireData.addExemplaire(e1);
 				exemplaireData.addExemplaire(e2);
 				exemplaireData.addExemplaire(e3);

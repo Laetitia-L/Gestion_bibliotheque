@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.paint.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="fenetre_inscription" fx:id="root_pane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="460.0" style="-fx-background-color: #fff;" stylesheets="@inscription.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="biblio.view.InscriptionController">
+   <children>
+      <AnchorPane id="div_login" blendMode="SRC_ATOP" prefHeight="128.0" prefWidth="270.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+         <children>
+            <GridPane id="cnx_grid" fx:id="login_box" prefHeight="126.0" prefWidth="270.0" style="-fx-background-color: #DDD;">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="133.0" minWidth="10.0" prefWidth="129.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="180.0" minWidth="10.0" prefWidth="137.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="27.0" minHeight="10.0" prefHeight="24.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="34.0" minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <JFXPasswordField id="txt_pwd" fx:id="txt_pwd" focusColor="#266d85" onAction="#save_psw" promptText="Mot de Passe" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                  <JFXTextField id="txt_pseudo" fx:id="txt_pseudo" focusColor="#266d85" onAction="#save_pseudo" promptText="Pseudonyme" GridPane.columnSpan="2" GridPane.valignment="CENTER" />
+                  <JFXButton id="btn_connexion" fx:id="btn_connexion" alignment="CENTER" contentDisplay="TOP" onAction="#login" prefHeight="28.0" prefWidth="116.0" ripplerFill="WHITE" style="-fx-background-color: #266D85;" text="Connexion" textAlignment="CENTER" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                     <effect>
+                        <Blend opacity="0.5" />
+                     </effect>
+                     <font>
+                        <Font name="BebasNeue" size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton id="btn_inscription" fx:id="btn_inscription" alignment="CENTER" contentDisplay="CENTER" onAction="#signup" prefHeight="28.0" prefWidth="122.0" ripplerFill="WHITE" style="-fx-background-color: #266D85;" text="Inscription" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="BebasNeue" size="14.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </GridPane>
+         </children>
+         <effect>
+            <DropShadow blurType="GAUSSIAN" />
+         </effect>
+      </AnchorPane>
+      <AnchorPane id="image_fd" blendMode="HARD_LIGHT" layoutY="287.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="166.0" prefWidth="606.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <HBox alignment="CENTER" layoutY="240.0" prefHeight="100.0" prefWidth="460.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Label fx:id="lbl_accueil" alignment="CENTER" contentDisplay="CENTER" text="Bibliothèque des Marmusots" textFill="#999999">
+               <font>
+                  <Font name="BebasNeue" size="36.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

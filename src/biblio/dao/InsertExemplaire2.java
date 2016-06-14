@@ -10,7 +10,8 @@ import java.util.Date;
 
 import javax.swing.JOptionPane;
 
-import biblio.metier.EnumstatusExemplaire;
+import biblio.metier.EnumStatusExemplaire;
+import biblio.metier.EnumStatusExemplaire;
 import biblio.metier.Exemplaire;
 
 public class InsertExemplaire2 
@@ -29,7 +30,7 @@ public class InsertExemplaire2
 	{
 		InsertExemplaire2 instanciation = new InsertExemplaire2();
 		instanciation.initConnexion();
-		Exemplaire test_exemp2 = new Exemplaire(new Date(), EnumstatusExemplaire.DISPONIBLE , "3200066559");
+		Exemplaire test_exemp2 = new Exemplaire(new Date(), EnumStatusExemplaire.DISPONIBLE , "3200066559");
 		instanciation.insertExemplaire2(test_exemp2);
 	}
 	

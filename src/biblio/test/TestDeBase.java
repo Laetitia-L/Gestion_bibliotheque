@@ -1,5 +1,9 @@
 package biblio.test;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
+import biblio.control.IExemplairesDao;
 import biblio.dao.*;
 import biblio.metier.Adherent;
 import biblio.metier.Employe;
@@ -9,7 +13,7 @@ import biblio.metier.Exemplaire;
 public class TestDeBase 
 {
  
-	public static void main(String[] args) throws BiblioException
+	public static void main(String[] args) throws BiblioException, ClassNotFoundException, IOException, SQLException
 	{
 		// Création de 2 exemplaires
 		
@@ -20,7 +24,7 @@ public class TestDeBase
 		// Ajout des exemplaires dans la DB
 		
 		System.out.println("//////////////Ajout des exemplaires dans la DB/////////////\n");
-		ExemplairesDao exemplaireData  = new ExemplairesDao();
+		IExemplairesDao exemplaireData  = new ExemplairesDao();
 		exemplaireData.addExemplaire(e1);
 		System.out.println(e1);
 		exemplaireData.addExemplaire(e2);
@@ -47,8 +51,8 @@ public class TestDeBase
 		usersDao.addUtilisateur(a2);
 		// Demande de 2 Adhérents par leurs id dans la DB
 		System.out.println("//////////////Demande de 2 Adhérents par leurs id dans la DB/////////////\n");
-		System.out.println(usersDao.findByKey(111));
-		System.out.println(usersDao.findByKey(112));
+		System.out.println(usersDao.findByKey2(111));
+		System.out.println(usersDao.findByKey2(112));
 		
 		/////////////////////////
 		// Création de 2 employés
@@ -63,8 +67,8 @@ public class TestDeBase
 		usersDao.addUtilisateur(emp2);
 		// Demande de 2 employés par leurs id dans la DB
 		System.out.println("Demande de 2 employés par leurs id dans la DB");
-		System.out.println(usersDao.findByKey(211));
-		System.out.println(usersDao.findByKey(212));
+		System.out.println(usersDao.findByKey2(211));
+		System.out.println(usersDao.findByKey2(212));
 		
 		
 		//////////////////////////////////////////////////

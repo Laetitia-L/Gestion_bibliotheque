@@ -1,8 +1,12 @@
 package biblio.test;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import biblio.control.EmprunterCtl_old;
+import biblio.control.IExemplairesDao;
 import biblio.dao.BiblioException;
 import biblio.dao.ExemplairesDao;
 import biblio.metier.Adherent;
@@ -11,7 +15,7 @@ import biblio.metier.Exemplaire;
 
 public class TestAdherentEnRetard {
 
-	public static void main(String[] args) throws BiblioException, ParseException
+	public static void main(String[] args) throws BiblioException, ParseException, ClassNotFoundException, SQLException, IOException
 	{
 		// Création de 2 exemplaires
 		
@@ -22,7 +26,7 @@ public class TestAdherentEnRetard {
 		// Ajout des exemplaires dans la DB
 		
 		System.out.println("//////////////Ajout des exemplaires dans la DB/////////////\n");
-		ExemplairesDao exemplaireData  = new ExemplairesDao();
+		IExemplairesDao exemplaireData  = new ExemplairesDao();
 		exemplaireData.addExemplaire(e1);
 
 		// Création de 2 Adhérents
@@ -48,7 +52,12 @@ public class TestAdherentEnRetard {
 		// Essai d'emprunt pour l'adhéret qui a un retard
 		System.out.println("///////Essai d'emprunt pour l'adhéret qui a un retard///////");
 		EmpruntEnCours eec2 = new EmpruntEnCours(e2);
-		a1.addEmpruntEnCours(eec2);
+		//a1.addEmpruntEnCours(eec2);
+		
+		//Test Classe Control Emprunter
+		EmprunterCtl_old emprunt_control = new EmprunterCtl_old();
+		System.out.println(emprunt_control.isNbEmpruntsMaxAtteint(a1));
+		
 		
 		
 	}

@@ -21,7 +21,7 @@ public class ConnectionFactory
 	private String user;
 	private String pwd;
 	
-	private ConnectionFactory() throws ClassNotFoundException, SQLException, IOException
+	public ConnectionFactory() throws ClassNotFoundException, SQLException, IOException
 	{
 		//Pour aller chercher et charger le fichier properties créé
 		Properties properties = new Properties();
@@ -37,7 +37,7 @@ public class ConnectionFactory
 		//Ouvrir la connection
 		cnx = DriverManager.getConnection(url, user, pwd);
 		//feedback pour s'assurer de la connexion
-		JOptionPane.showMessageDialog(null, "Connexion établie avec succès !");
+		//JOptionPane.showMessageDialog(null, "Connexion établie avec succès !");
 	}
 	
 	public static Connection getConnection() throws ClassNotFoundException, SQLException, IOException

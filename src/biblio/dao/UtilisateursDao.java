@@ -2,12 +2,13 @@ package biblio.dao;
 
 import java.util.ArrayList;
 
+import biblio.control.IUtilisateursDao;
 import biblio.metier.Adherent;
 import biblio.metier.Employe;
 import biblio.metier.Exemplaire;
 import biblio.metier.Utilisateur;
 
-public class UtilisateursDao 
+public class UtilisateursDao implements IUtilisateursDao 
 {
 	private ArrayList <Utilisateur> utilisateurDB = new ArrayList<Utilisateur>();
 	
@@ -41,12 +42,20 @@ public class UtilisateursDao
 	}
 	
 	// Ajouter un utilisateur à la liste
+	/* (non-Javadoc)
+	 * @see biblio.dao.IUtilisateursDao#addUtilisateur(biblio.metier.Utilisateur)
+	 */
+	@Override
 	public void addUtilisateur(Utilisateur u)
 	{
 		utilisateurDB.add(u);
 	}
 	
 	//Trouver un utilisateur via son identifiant
+	/* (non-Javadoc)
+	 * @see biblio.dao.IUtilisateursDao#findByKey(int)
+	 */
+	@Override
 	public Utilisateur findByKey(int id)
 	{
 		Utilisateur u1 = null;

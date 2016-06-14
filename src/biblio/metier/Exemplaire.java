@@ -6,7 +6,7 @@ public class Exemplaire
 {
 	 private int idExemplaire;
 	 private Date dateAchat;
-	 private EnumstatusExemplaire status = EnumstatusExemplaire.DISPONIBLE;
+	 private EnumStatusExemplaire status = EnumStatusExemplaire.DISPONIBLE;
 	 private String isbn;
 	 private EmpruntEnCours empruntEnCours;
 	 
@@ -17,7 +17,17 @@ public class Exemplaire
 	 
 	 
 	 
-	 public Exemplaire(Date dateAchat, EnumstatusExemplaire status, String isbn) 
+	 public Exemplaire(int idExemplaire, Date dateAchat, EnumStatusExemplaire status, String isbn) 
+	 {
+		this.idExemplaire = idExemplaire;
+		this.dateAchat = dateAchat;
+		this.status = status;
+		this.isbn = isbn;
+	}
+
+
+
+	public Exemplaire(Date dateAchat, EnumStatusExemplaire status, String isbn) 
 	 {
 		this.dateAchat = dateAchat;
 		this.status = status;
@@ -32,6 +42,7 @@ public class Exemplaire
 		 this.isbn = isbn;
 	 }
 	 
+	//Getters
 	public int getIdExemplaire()
 	{
 		return idExemplaire;
@@ -43,20 +54,22 @@ public class Exemplaire
 		return this.isbn;
 	}
 	
-	public void setStatus(EnumstatusExemplaire status)
+	
+	public EnumStatusExemplaire getStatus()
+	{
+		return this.status;
+	}
+	
+	public Date getDateAchat() {
+		return this.dateAchat;
+	}
+
+	//Setters
+	public void setStatus(EnumStatusExemplaire status)
 	{
 		this.status = status;
 	}
 	
-	public EnumstatusExemplaire getStatus()
-	{
-		return status;
-	}
-	
-	public Date getDateAchat() {
-		return dateAchat;
-	}
-
 	public void setDateAchat(Date dateAchat) {
 		this.dateAchat = dateAchat;
 	}
